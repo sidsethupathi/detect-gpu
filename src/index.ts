@@ -6,7 +6,7 @@ import { BLOCKLISTED_GPUS } from './internal/blocklistedGPUS';
 import { cleanRenderer } from './internal/cleanRenderer';
 import { deobfuscateRenderer } from './internal/deobfuscateRenderer';
 import { deviceInfo } from './internal/deviceInfo';
-import { getLevenshteinDistance } from './internal/getLevenshteinDistance';
+import { getTokenSetLevenshteinDistance } from './internal/getLevenshteinDistance';
 import { getGPUVersion } from './internal/getGPUVersion';
 import { getWebGLContext } from './internal/getWebGLContext';
 import { isSSR } from './internal/ssr';
@@ -202,7 +202,7 @@ export const getGPUTier = async ({
         ? matched
             .map(
               (match) =>
-                [match, getLevenshteinDistance(renderer, match[0])] as const
+                [match, getTokenSetLevenshteinDistance(renderer, match[0])] as const
             )
             .sort(([, a], [, b]) => a - b)[0][0]
         : matched[0];

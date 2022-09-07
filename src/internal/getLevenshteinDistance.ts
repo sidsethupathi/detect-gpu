@@ -2,6 +2,27 @@
 const array: number[] = [];
 const charCodeCache: number[] = [];
 
+function tokenizeSetString(str: string): string {
+  const tokenSplitters = [".", ",", "(", ")", "/"];
+  const sanitizedString = tokenSplitters.reduce((prev, splitter) => {
+    return prev.replace(splitter, " ");
+  }, str)
+
+  const tokenSet = new Set();
+
+  sanitizedString.split(" ").forEach(token => tokenSet.add(token))
+
+  const tokenArray = Array.from(tokenSet);
+  tokenArray.sort();
+  return tokenArray.join(" ");
+}
+
+export function getTokenSetLevenshteinDistance(left: string, right: string): number {
+  const tokenLeft = tokenizeSetString(left);
+  const tokenRight = tokenizeSetString(right)
+  return getLevenshteinDistance(tokenLeft, tokenRight)
+}
+
 // Compute the difference (distance) between two strings
 // SEE: https://en.wikipedia.org/wiki/Levenshtein_distance
 // CREDIT: https://github.com/sindresorhus/leven (version 3.1.0)
